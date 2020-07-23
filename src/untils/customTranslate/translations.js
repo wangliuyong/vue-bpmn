@@ -17,7 +17,6 @@ export default {
   'Create Intermediate/Boundary Event':'创建中间节点',
   'Append EndEvent':'添加结束节点',
   'Append Gateway':'添加分支',
-
   //节点功能按键
   'Exclusive Gateway': 'Exklusives Gateway',
   'Parallel Gateway': 'Paralleles Gateway',
