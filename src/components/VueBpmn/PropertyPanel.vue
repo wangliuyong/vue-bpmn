@@ -109,7 +109,7 @@ export default {
       form: {
         id: "",
         name: "",
-        color: null
+        color: ""
       },
       element: {},
       users: [
@@ -151,7 +151,12 @@ export default {
       this.modeler.on("selection.changed", e => {
         const element = e.newSelection[0];
         this.element = element;
-        console.log(this.element);
+        if(this.element){
+          console.log(this.element.id);
+        } else {
+          console.log(this.element);
+        }
+        
         if (!element) return;
         this.form = {
           ...element.businessObject,
@@ -181,12 +186,14 @@ export default {
     },
     // 属性面板颜色，更新回流程节点
     colorChange(color) {
-      const modeling = this.modeler.get("modeling");
-      modeling.setColor(this.element, {
-        fill: null,
-        stroke: color
-      });
-      modeling.updateProperties(this.element, { color: color });
+      if(color && this.element){
+        const modeling = this.modeler.get("modeling");
+        modeling.setColor(this.element, {
+          fill: null,
+          stroke: color
+        });
+        modeling.updateProperties(this.element, { color: color });
+      }
     },
     // 任务节点配置人员
     addUser(properties) {
