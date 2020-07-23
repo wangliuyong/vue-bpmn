@@ -181,11 +181,13 @@ export default {
     },
     // 属性面板名称，更新回流程节点
     nameChange(name) {
+      console.log(this.element);
       const modeling = this.modeler.get("modeling");
       modeling.updateLabel(this.element, name);
     },
     // 属性面板颜色，更新回流程节点
     colorChange(color) {
+      console.log(this.element);
       if(color && this.element){
         const modeling = this.modeler.get("modeling");
         modeling.setColor(this.element, {
