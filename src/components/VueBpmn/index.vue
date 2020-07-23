@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import customTranslate from '../../untils/customTranslate/customTranslate';
 import BpmnModeler from "bpmn-js/lib/Modeler"; // bpmn-js 设计器
 import panel from "./PropertyPanel"; // 属性面板
 import BpmData from "./BpmData";
@@ -218,10 +219,16 @@ export default {
     }
   },
   mounted() {
+    const customTranslateModule = {
+      translate: [ 'value', customTranslate ]
+    }
     const canvas = this.$refs.canvas;
     // 生成实例
     this.bpmnModeler = new BpmnModeler({
-      container: canvas
+      container: canvas,
+      additionalModules:[
+        customTranslateModule
+      ],
     });
 
     // 获取a标签dom节点
