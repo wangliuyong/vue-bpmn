@@ -120,13 +120,15 @@ export default {
     const customTranslateModule = {
       translate: [ 'value', customTranslate ]
     }
+
+    const additionalModules  = {
+      additionalModules:[{zoomScroll:['value','']}]
+    }
     const canvas = this.$refs.canvas;
     // 生成实例
     this.bpmnModeler = new BpmnModeler({
       container: canvas,
-      additionalModules:[
-        customTranslateModule
-      ],
+      additionalModules: [ customTranslateModule, additionalModules ],
     });
 
     // 获取a标签dom节点
