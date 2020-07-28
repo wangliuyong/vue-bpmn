@@ -68,7 +68,7 @@
       </el-form-item>
       <!-- 分支允许添加条件 -->
       <el-form-item label="分支条件" v-if="sequenceFlow">
-        <el-select v-model="form.user" placeholder="请选择">
+        <el-select v-model="form.user" placeholder="请选择" @change="(value) => addUser({xxx: value})">
           <el-option
             v-for="item in users"
             :key="item.value"
@@ -82,6 +82,7 @@
 </template>
 
 <script>
+
 export default {
   name: "PropertyPanel",
   props: {
@@ -151,10 +152,11 @@ export default {
       this.modeler.on("selection.changed", e => {
         const element = e.newSelection[0];
         this.element = element;
+        console.log(element);
         if(this.element){
-          console.log(this.element.id);
+          // console.log(this.element.id);
         } else {
-          console.log(this.element);
+          // console.log(this.element);
         }
         
         if (!element) return;
@@ -181,13 +183,11 @@ export default {
     },
     // 属性面板名称，更新回流程节点
     nameChange(name) {
-      console.log(this.element);
       const modeling = this.modeler.get("modeling");
       modeling.updateLabel(this.element, name);
     },
     // 属性面板颜色，更新回流程节点
     colorChange(color) {
-      console.log(this.element);
       if(color && this.element){
         const modeling = this.modeler.get("modeling");
         modeling.setColor(this.element, {

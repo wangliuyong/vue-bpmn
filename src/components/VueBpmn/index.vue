@@ -35,6 +35,8 @@ export default {
           console.error(err);
         } else {
           this.adjustPalette();
+          this.addEventBusListener()
+          this.getNodeInfoList()
         }
       });
     },
@@ -114,7 +116,50 @@ export default {
         link.href = "data:application/bpmn20-xml;charset=UTF-8," + encodedData;
         link.download = name;
       }
+    },
+    // 后退
+    handleUndo () {
+      this.bpmnModeler.get('commandStack').undo()
+    },
+    // 前进
+    handleRedo () {
+      this.bpmnModeler.get('commandStack').redo()
+    },
+    // 获取流程图中所有节点信息
+    getNodeInfoList () {
+      const elementRegistry = this.bpmnModeler.get('elementRegistry')
+      const userTaskList = elementRegistry.filter(
+        (item) => item.type === 'bpmn:UserTask'
+      )
+      // 此时得到的userTaskList 便是流程图中所有的用户节点的集合
+      console.log(userTaskList)
+    },
+    addEventBusListener () {
+      const eventBus = this.bpmnModeler.get('eventBus')
+      // 注册节点事件，eventTypes中可以写多个事件
+      const eventTypes = ['element.click', 'element.hover']
+      eventTypes.forEach((eventType) => {
+        eventBus.on(eventType, (e) => {
+          const {element} = e
+          if (!element.parent) return
+          if (!e || element.type === 'bpmn:Process') {
+            return false
+          } else {
+            if (eventType === 'element.click') {
+              // 节点点击后想要做的处理
+              // 此时想要点击节点后，拿到节点实例，通过外部输入更新节点名称
+              this.currentElement = element
+              console.log(element);
+              console.log('this.bpmnModeler', this.bpmnModeler.get('elementRegistry'));
+            } else if (eventType === 'element.hover') {
+              // 鼠标滑过节点后想要做的处理
+              console.log('鼠标经过节点啦~')
+            }
+          }
+        })
+      })
     }
+    
   },
   mounted() {
     const customTranslateModule = {
